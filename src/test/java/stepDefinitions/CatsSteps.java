@@ -1,5 +1,7 @@
 package stepDefinitions;
 
+import org.junit.Assert;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -7,7 +9,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class StepsCats {
+public class CatsSteps {
     private static final String BASE_URL = "https://catfact.ninja/";
 
     private static Response response;
@@ -23,11 +25,12 @@ public class StepsCats {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
         response = request.get("/fact");
+        Assert.assertEquals(200, response.getStatusCode());
         jsonString = response.asString();
     }
 
     @Then("Fact is displayed")
-        public void displayFact (){
+        public void displayResponse (){
         System.out.println(jsonString);
     }
 }
