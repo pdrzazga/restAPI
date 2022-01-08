@@ -6,6 +6,8 @@ Feature: Tests for API testing https://gorest.co.in/
         When User get list
         Then Users list are displayed
 
-    Scenario: User is able to add new user to list using post method
-        Given New position is added to user list using post request with name: "pelson" and email: "pelsonpelsoniasty6@gmail.com" and gender: "female" and status: "inactive"
-        Then Users is successfully added
+    Scenario: User is able to add new user to list and then delete it
+        Given New position is added to user list using post request with name: "pelson" and email: "pelsonpelsoniasty10@gmail.com" and gender: "female" and status: "inactive"
+        Then User is successfully added
+        When Previously created user is delete from the list using delete request
+        Then User is successfully deleted

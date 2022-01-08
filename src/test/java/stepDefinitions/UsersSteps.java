@@ -37,7 +37,19 @@ public class UsersSteps {
                 .post("/public/v1/users");
         Assert.assertEquals(201, response.getStatusCode());
         id = response.jsonPath().getInt("data.id");
-        System.out.println(id);
+        //System.out.println(id);
+    }
+
+    @When("Previously created user is delete from the list using delete request")
+    public void deleteUser(){
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        request.header("Authorization", "Bearer " + TOKEN)
+                .header("Content-Type", "application/json");
+        //System.out.println(id);
+        //System.out.println("/public/v1/users/" + id);
+        response = request.delete("/public/v1/users/" + id);
+        Assert.assertEquals(204, response.getStatusCode());
     }
 
     @When("User get list")
@@ -54,7 +66,7 @@ public class UsersSteps {
         System.out.println(jsonString);
     }
 
-    @Then("Users is successfully added")
+    @Then("User is successfully added")
     public void checkingUserExisting (){
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
@@ -62,5 +74,13 @@ public class UsersSteps {
         Assert.assertEquals(200, response.getStatusCode());
         jsonString = response.asString();
         System.out.println(jsonString);
+    }
+
+    @Then("User is successfully deleted")
+    public void checkingUserDeleted (){
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        response = request.get("/public/v1/users/"+ id);
+        Assert.assertEquals(404, response.getStatusCode());
     }
 }
