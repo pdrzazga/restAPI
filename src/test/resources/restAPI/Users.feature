@@ -13,3 +13,16 @@ Feature: Tests for API testing https://gorest.co.in/
         Then User status is successfully modified
         When Previously created user is delete from the list using delete request
         Then User is successfully deleted
+
+Scenario Outline: User is able to add new users to list, modify status and then delete them
+        Given New position is added to user list using post request with name: "<name>" and email: "<email>" and gender: "<gender>" and status: "<status>"
+        Then User is successfully added
+        When Status for created user is changed to "active"
+        Then User status is successfully modified
+        When Previously created user is delete from the list using delete request
+        Then User is successfully deleted
+
+        Examples:
+        | name   | email                       | gender | status   |
+        | pelson | pelsoniasty123456@gmail.com | female | inactive |
+        | krzych | pelsoniasty123478@gmail.com | male   | inactive |
