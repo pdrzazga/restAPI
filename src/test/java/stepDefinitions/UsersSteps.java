@@ -52,6 +52,19 @@ public class UsersSteps {
         Assert.assertEquals(204, response.getStatusCode());
     }
 
+    @When("Status for created user is changed to {string}")
+    public void modifyUserStatus(String status){
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        request.header("Authorization", "Bearer " + TOKEN)
+                .header("Content-Type", "application/json");
+        //System.out.println(id);
+        //System.out.println("/public/v1/users/" + id);
+        response = request.body("{ \"status\": \"" + status + "\"}")
+                .put("/public/v1/users/" + id);
+        Assert.assertEquals(200, response.getStatusCode());
+    }
+
     @When("User get list")
     public void getUsersList () {
         RestAssured.baseURI = BASE_URL;
@@ -74,6 +87,15 @@ public class UsersSteps {
         Assert.assertEquals(200, response.getStatusCode());
         jsonString = response.asString();
         System.out.println(jsonString);
+    }
+
+    @Then("User status is successfully modified")
+    public void checkingUserStatus (){
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        response = request.get("/public/v1/users/"+ id);
+        Assert.assertEquals("active", response.jsonPath().getString("data.status"));
+        //System.out.println(response.jsonPath().getString("data.status"));
     }
 
     @Then("User is successfully deleted")
